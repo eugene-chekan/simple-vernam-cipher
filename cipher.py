@@ -2,7 +2,7 @@ from typing import List
 
 
 def xor_step(a, b):
-    a_ascii = a if isinstance(a, int) else ord(a)
+    a_ascii = a if isinstance(a, int) else int(a, 2) if isinstance(a, bytes) else ord(a)
     b_ascii = ord(b)
     # Convert ASCII codes to binary numbers
     a_bin = bin(a_ascii)[2:].zfill(8)
@@ -24,7 +24,7 @@ def vernam_encrypt(message: str, key: str) -> List[int]:
     return [int(xor_step(message[i], key[i]), 2) for i in range(len(message))]
 
 
-def vernam_decrypt(code: List[int], key: str) -> str:
+def vernam_decrypt(code: List[int | bytes], key: str) -> str:
     if len(code) != len(key):
         raise ValueError(f'Code={len(code)} symbols, key={len(key)} symbols. Must be equal.')
 
